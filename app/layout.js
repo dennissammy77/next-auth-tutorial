@@ -7,8 +7,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ChakraProvider>
+    <html lang="en">
+    <head>
+    </head>
+    <body>
+      <ChakraProvider>
       {children}
     </ChakraProvider>
+      </body>
+    </html>
+    
   )
 }
