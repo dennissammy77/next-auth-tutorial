@@ -11,11 +11,11 @@ import {
 
 import { MdVisibility,MdVisibilityOff } from "react-icons/md";
 import { FormStatus } from './FormStatus';
-import { IoWarningOutline } from "react-icons/io5";
-import { login } from '@/actions/login';
 import { useTransition } from 'react';
+import { register } from '@/actions/register';
 
-const LoginForm=()=>{
+const RegisterForm=()=>{
+  const [name, set_name]=useState('');
   const [email, set_email]=useState('');
   const [password, set_password]=useState('');
   const [input_error, set_input_error]=useState(false);
@@ -34,20 +34,28 @@ const LoginForm=()=>{
 
   const handleSubmit=()=>{
     startTransition(()=>{
-      login(payload).then((res)=>{
+      register(payload).then((res)=>{
         console.log(res)
         set_form_status_message(res?.message)
         set_form_status_status(res?.status)
+        if(res.status === 'error'){
+          set_input_error(true)
+        }
       })
     })
   }
   return (
     <CardWrapper
-      headerLabel='Welcome back'
-      backButtonLabel='Dont have an account?'
-      backButtonHref={'/auth/register'}
+      headerLabel='Create an account'
+      backButtonLabel='Already have an account?'
+      backButtonHref={'/auth/login'}
       showSocial
     >
+      <FormControl mt='1' isRequired isInvalid={input_error && name == '' ? true : false}>
+        <FormLabel>Name</FormLabel>
+        <Input disabled={isPending} type='text' placeholder='John Doe ' variant='filled' required onChange={((e)=>{set_name(e.target.value)})}/>
+        {input_error && name == '' ?  <FormErrorMessage>name is required.</FormErrorMessage> : ( null )}
+      </FormControl>
       <FormControl mt='1' isRequired isInvalid={input_error && email == '' ? true : false}>
         <FormLabel>Email</FormLabel>
         <Input disabled={isPending} type='email' placeholder='johndoe@email.com ' variant='filled' required onChange={((e)=>{set_email(e.target.value)})}/>
@@ -65,12 +73,12 @@ const LoginForm=()=>{
       </FormControl>
       <FormStatus message={form_status_message} status={form_status_status}/>
       {isPending?
-        <Button isLoading loadingText='Signing you in' variant='ghost' borderRadius={'md'} w='full'/>
+        <Button isLoading loadingText='Creating your account' variant='ghost' borderRadius={'md'} w='full'/>
         :
-        <Button variant={'filled'} borderRadius={'md'} bg='#05232e' mt='2' w='full' color='#fff' onClick={handleSubmit}>Login</Button>
+        <Button variant={'filled'} borderRadius={'md'} bg='#05232e' mt='2' w='full' color='#fff' onClick={handleSubmit}>Register</Button>
       }
     </CardWrapper>
   )
 }
 
-export default LoginForm
+export default RegisterForm

@@ -1,9 +1,9 @@
 "use server"
 
-export const login = async(data)=>{
-    if (!data?.email || !data?.password){
+export const register = async(data)=>{
+    if (!data?.email || !data?.password || !data?.name){
         const form_status = {
-            message: 'Invalid Credentials',
+            message: 'Missing input fields',
             status: 'error',
         }
         return form_status;
