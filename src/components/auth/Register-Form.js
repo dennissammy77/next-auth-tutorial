@@ -28,8 +28,9 @@ const RegisterForm=()=>{
   const [form_status_message,set_form_status_message]=useState('');
   const [form_status_status,set_form_status_status]=useState('');
   const payload={
+    name,
     email,
-    password,
+    password
   }
 
   const handleSubmit=()=>{
