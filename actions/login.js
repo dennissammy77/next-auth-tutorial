@@ -5,6 +5,7 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 
 export const login = async(data)=>{
+    console.log(data)
     if (!data?.email || !data?.password){
         const form_status = {
             message: 'Invalid Credentials',
@@ -22,6 +23,7 @@ export const login = async(data)=>{
             redirectTo: DEFAULT_LOGIN_REDIRECT
         })
     }catch(err){
+        console.log(err)
         if (err instanceof AuthError){
             switch (err.type){
                 case "CredentialsSignin":
